@@ -154,8 +154,9 @@ class XmlImporter:
         elif hasattr(ua.ObjectIds, nodeid):
             return ua.NodeId(getattr(ua.ObjectIds, nodeid))
         else:
-            if nodeid in self.aliases:
-                return self.aliases[nodeid]
+            unmigrated_aliases = self.parser.get_aliases()
+            if nodeid in unmigrated_aliases:
+                return ua.NodeId.from_string(unmigrated_aliases[nodeid])
             else:
                 return ua.NodeId(getattr(ua.ObjectIds, nodeid))
 
